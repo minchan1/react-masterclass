@@ -4,8 +4,10 @@ import { useQuery } from "react-query";
 import { Link, Switch, Route, useLocation, useParams, useRouteMatch, } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { darkTheme, lightTheme } from "../theme";
 import Chart from "./chart";
 import Price from "./price";
+import { ThemeProvider } from "styled-components";
 
 const Title = styled.h1`
     font-size:48px;
@@ -82,6 +84,19 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
+const Tab2 = styled.span`
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 400;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 7px 0px;
+  border-radius: 10px;
+  a {
+    display: block;
+  }
+`;
+
 interface InfoData {
     id:string;
     name:string;
@@ -152,6 +167,7 @@ function Coin () {
       );
     const loading = infoLoading || tickersLoading;
     return (
+      <ThemeProvider theme={darkTheme}>
         <Container>
         <Helmet>
           <title>
@@ -209,11 +225,16 @@ function Coin () {
               </Route>
             </Switch>
             <Tabs>
+              <Tab2>
               <Link to="../">&larr; Back to list</Link>
+              </Tab2>
+              <Tab2>
+              </Tab2>
             </Tabs>
           </>
         )}
       </Container>
+      </ThemeProvider>
     );
 }
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled, { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { ThemeProvider } from 'styled-components';
+import { darkTheme, lightTheme } from './theme';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -68,11 +70,14 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const isDarkMode = true;
   return (
     <>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
      <GlobalStyle />
      <Router />
      < ReactQueryDevtools initialIsOpen={false} />
+     </ThemeProvider>
     </>
   );
 }
