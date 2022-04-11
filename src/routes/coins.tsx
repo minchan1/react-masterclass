@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
-import { darkTheme,lightTheme } from "../theme";
-import { ThemeProvider } from "styled-components";
 
 const Container = styled.div`
     padding:0px 20px;
@@ -58,11 +56,6 @@ const Img = styled.img`
     margin-right:10px;
 `;
 
-const Btn = styled.button`
-    width:30px;
-    height:30px;
-`;
-
 interface ICoin {
     id: string,
     name: string,
@@ -73,23 +66,21 @@ interface ICoin {
     type: string,
 }
 
-function Coins () {
+interface ICoinsProps {
+    toggleDark : () => void;
+}
+
+function Coins ({toggleDark}:ICoinsProps) {
     const { isLoading, data } = useQuery<ICoin[]>("allCoins",fetchCoins);
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const toggleDarkMode = () => {
-        setIsDarkMode((prev) => !prev);
-    };
-    console.log(isDarkMode);
     return (
-    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
     <Container>
         <Helmet>
             <title>Coins</title>
         </Helmet>
         <Header>
         <Title>Coins</Title>
+        <button onClick={toggleDark}>Toggle Mode</button>
         </Header>
-        <button onClick={() => toggleDarkMode()}>1234</button>
         {isLoading ? <Loader>Loading...</Loader> : 
         <CoinsList>
             {data?.slice(0,100).map(coin => <Coin key={coin.id}>
@@ -103,7 +94,6 @@ function Coins () {
             </Coin>)}
         </CoinsList>}
     </Container>
-    </ThemeProvider>
     );
 }
 
